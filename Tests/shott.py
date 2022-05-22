@@ -1,4 +1,5 @@
 import camera
+import os
 
 ## ESP32-CAM (default configuration) - https://bit.ly/2Ndn8tN
 print('Iniciando camera...')
@@ -11,18 +12,16 @@ print('Camera iniciada!\n')
 
 
 
-
 # quality
 #camera.quality(63)
 # 10-63 lower number means higher quality
 
 print('Tirando foto...')
 buf = camera.capture()
-print(f"Foto tirada: {buf}\n")
 
 print('Salvando foto...')
 if len(buf): # Check if the photo is ok
-    imageFile = open(f"teste.jpeg", 'w')
+    imageFile = open("teste.jpg", 'w')
     imageFile.write(buf)
     imageFile.close()
 
