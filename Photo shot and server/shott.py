@@ -33,5 +33,6 @@ def take_photo(filename, variable=0):
     if variable:
         imgFile = open(filename + ".jpg", 'r')
         img = imgFile.read()
+        imgFile.close()
 
         return img

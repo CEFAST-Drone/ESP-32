@@ -1,19 +1,38 @@
 import socket
 from machine import Pin
-import network
 
 def connect(ssid, password):
+
+  # Debug functions
+  import esp
+  esp.osdebug(None)
+
+  import gc
+  gc.collect()
+
+  # Real connection
+  import network
+  import time
+
   station = network.WLAN(network.STA_IF)
+
   station.active(True)
   station.connect(ssid, password)
 
-def web_page(img): # HTML page
-  
-  return img
+  while station.isconnected() == False:
+    pass
 
-def run(img): # Create server
+  print('Connection successful')
+  print(station.ifconfig())
+
+  led = Pin(4, Pin.OUT) # Turn on some led (flashlight) to tell that internet was connected
+  led.value(1)
+  time.sleep(1)
+  led.value(0)
+
+def run(img, port=80): # Create server
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind(('', 80)) # Local host is '', and 80 is the port
+    s.bind(('', port)) # Local host is '', and 80 is the port
     s.listen(5)
 
     print('Config did.')
@@ -27,7 +46,7 @@ def run(img): # Create server
         request = str(request)
         print('Content = %s' % request)
 
-        response = web_page(img)
+        response = img
         conn.send('HTTP/1.1 200 OK\n')
         conn.send('Content-Type: image/jpg\n')
         conn.send('Connection: close\n\n')
