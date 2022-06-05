@@ -1,13 +1,6 @@
 import socket
-from machine import Pin
-
-led = Pin(4, Pin.OUT) # FlashLight
 
 def web_page(): # HTML page
-  if led.value() == 1: # LocalHost activated
-    gpio_state="ON"
-  else:
-    gpio_state="OFF"
   
   html = """<html><head> <title>ESP Web Server</title> <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:,"> <style>html{font-family: Helvetica; display:inline-block; margin: 0px auto; text-align: center;}
@@ -31,18 +24,35 @@ while True: # Request/Responses loop
   request = conn.recv(1024)
   request = str(request)
   print('Content = %s' % request)
-  led_on = request.find('/?led=on')
-  led_off = request.find('/?led=off')
-  print(led_on, led_off)
-  if led_on == 6:
-    print('LED ON')
-    led.value(1)
-  if led_off == 6:
-    print('LED OFF')
-    led.value(0)
+
   response = web_page()
   conn.send('HTTP/1.1 200 OK\n')
   conn.send('Content-Type: text/html\n')
   conn.send('Connection: close\n\n')
   conn.sendall(response)
   conn.close()
+
+"""
+def run(page, port=80): # Create server
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(('', port)) # Local host is '', and 80 is the port
+    s.listen(5)
+
+    print('Config did.')
+
+    while True: # Request/Responses loop
+        print('...') # Waiting connection
+
+        conn, addr = s.accept() # Requested activated
+        print('Got a connection from %s' % str(addr))
+        request = conn.recv(1024)
+        request = str(request)
+        print('Content = %s' % request)
+
+        response = page
+        conn.send('HTTP/1.1 200 OK\n')
+        conn.send('Content-Type: text/html\n')
+        conn.send('Connection: close\n\n')
+        conn.sendall(response)
+        conn.close()
+"""
