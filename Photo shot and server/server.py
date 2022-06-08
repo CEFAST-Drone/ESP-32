@@ -1,4 +1,5 @@
 import socket
+import os
 from machine import Pin
 
 def connect(ssid, password):
@@ -57,12 +58,25 @@ def run():
     request = conn.recv(1024)
     request = str(request)
     print('Content = %s' % request)
-
+    """
     response = web_page()
     conn.send('HTTP/1.1 200 OK\n')
     conn.send('Content-Type: text/html\n')
     conn.send('Connection: close\n\n')
     conn.sendall(response)
+    """
+    # Sending Image
+    print("Sending image...")
+    f = open("test.jpg", "rb")
+    size = os.path.getsize("test.jpg")
+    content = f.read(size)
+    conn.send('HTTP/1.1 200 OK\n')
+    conn.send('Content-Type: image/jpg\n')
+    conn.send('Connection: close\n\n')
+    conn.sendall('a')
+    f.close()
+    print("Image sent!")
+
     conn.close()
 
 
