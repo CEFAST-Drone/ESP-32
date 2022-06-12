@@ -17,22 +17,27 @@ def take_photo(filename, variable=0):
     print('Taking photo...')
     buf = camera.capture()
 
-    if len(buf): # Check if the photo is ok
-        print('Saving photo...')
+    try:
+        if len(buf): # Check if the photo is ok
+            print('Saving photo...')
 
-        imageFile = open(filename + ".jpg", 'w')
-        imageFile.write(buf)
-        imageFile.close()
+            imageFile = open(filename + ".jpg", 'w')
+            imageFile.write(buf)
+            imageFile.close()
 
-        print("Photo taked!")
-        print(os.listdir())
+            print("Photo taked!")
+            print(os.listdir())
 
-    else:
-        print("Photo not taked, an error occurred.")
+        else:
+            print("Photo not taked, an error occurred.")
 
-    if variable:
-        imgFile = open(filename + ".jpg", 'r')
-        img = imgFile.read()
-        imgFile.close()
+        if variable:
+            imgFile = open(filename + ".jpg", 'r')
+            img = imgFile.read()
+            imgFile.close()
 
-        return img
+            return img
+    except Exception as e:
+        print(e)
+    
+    camera.deinit() # Close Camera
