@@ -6,31 +6,33 @@ import os
 from machine import Pin
 import time
 
-def photo(filename, quality, brightness, saturation, contrast):
+def pic(q=10, b=2, s="", c="", nick=1):
     try:
         # Mount SD card
-        
-        """
+        if not nick: tools.loadSD()
+
         # Take picture
-        dirList = os.listdir()
+        dirList = os.listdir("sd/")
         count = 0 # defining the name of the photo
 
         for f in dirList:
             if "photo" in f and f[0] == "p" and ".jpg" in f:
                 count += 1
-        """
         
-        #filename = "photo" + str(count)
+        filename = "sd/photo" + str(count)
 
-        shott.take_photo(filename, quality=quality, brightness=brightness, saturation=saturation, contrast=contrast)
+        if nick: # Put the config in the filename
+            filename += "-" + str(q) + "-" + str(b) + "-" + str(s) + "-" + str(c)
+
+        shott.take_photo(filename, quality=q, brightness=b, saturation=s, contrast=c, dirLocal="sd/")
 
         # Move to SD card
-        tools.move(filename + ".jpg", "sd/" + filename + ".jpg")
+        # tools.move(filename + ".jpg", "sd/" + filename + ".jpg") - Do not need by saving it in the sdCard instead of in the flash memory
         
         flash = Pin(4, Pin.OUT)
 
         flash.on()
-        time.sleep(1)
+        time.sleep(0.5)
         flash.off()
 
         print("\nPhoto taked and moved to the SD card.\n")

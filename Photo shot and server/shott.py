@@ -2,7 +2,7 @@ import camera
 import os
 
 def take_photo(filename, variable=0, saturation="", brightness="", contrast="", quality="", flip="", mirror="", 
-                    framesize="", speffect="", whitebalance=""):
+                    framesize="", speffect="", whitebalance="", dirLocal=""):
     ## ESP32-CAM (default configuration) - https://bit.ly/2Ndn8tN
     print('Starting camera...')
     camera.init(0, format=camera.JPEG)
@@ -35,7 +35,7 @@ def take_photo(filename, variable=0, saturation="", brightness="", contrast="", 
             imageFile.close()
 
             print("Photo taked!")
-            print(os.listdir())
+            print(os.listdir(dirLocal))
 
         else:
             print("Photo not taked, an error occurred.")
@@ -47,6 +47,6 @@ def take_photo(filename, variable=0, saturation="", brightness="", contrast="", 
 
             return img
     except Exception as e:
-        print(e)
+        print("An error has occured, \n" + str(e))
     
     camera.deinit() # Close Camera
