@@ -3,10 +3,8 @@
 import shott
 import tools
 import os
-from machine import Pin
-import time
 
-def pic(q=10, b=2, s="", c="", nick=1):
+def pic(q=10, b=2, s="", c="", nick=1, fast=0):
     try:
         # Mount SD card
         if not nick: tools.loadSD()
@@ -29,11 +27,15 @@ def pic(q=10, b=2, s="", c="", nick=1):
         # Move to SD card
         # tools.move(filename + ".jpg", "sd/" + filename + ".jpg") - Do not need by saving it in the sdCard instead of in the flash memory
         
-        flash = Pin(4, Pin.OUT)
+        if not fast:
+            from machine import Pin
+            import time
 
-        flash.on()
-        time.sleep(0.5)
-        flash.off()
+            flash = Pin(4, Pin.OUT)
+
+            flash.on()
+            time.sleep(0.5)
+            flash.off()
 
         print("\nPhoto taked and moved to the SD card.\n")
 
