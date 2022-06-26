@@ -24,9 +24,6 @@ def pic(q=10, b=2, s="", c="", nick=1, fast=0):
 
         shott.take_photo(filename, quality=q, brightness=b, saturation=s, contrast=c, dirLocal="sd/")
 
-        # Move to SD card
-        # tools.move(filename + ".jpg", "sd/" + filename + ".jpg") - Do not need by saving it in the sdCard instead of in the flash memory
-        
         if not fast:
             from machine import Pin
             import time

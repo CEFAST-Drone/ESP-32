@@ -3,13 +3,10 @@ import os
 
 def take_photo(filename, variable=0, saturation="", brightness="", contrast="", quality="", flip="", mirror="", 
                     framesize="", speffect="", whitebalance="", dirLocal=""):
-    ## ESP32-CAM (default configuration) - https://bit.ly/2Ndn8tN
+
     print('Starting camera...')
     camera.init(0, format=camera.JPEG)
     print('Camera started!\n')
-    # The parameters: format=camera.JPEG, xclk_freq=camera.XCLK_10MHz are standard for all cameras.
-    # You can try using a faster xclk (20MHz), this also worked with the esp32-cam and m5camera
-    # but the image was pixelated and somehow green.
 
     # Camera configuration
 
